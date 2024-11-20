@@ -1,0 +1,101 @@
+﻿@model IEnumerable<UspgPOS.Models.Producto>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1 class="mt-2">Productos registrados</h1>
+
+<p>
+    <button class="btn btn-outline-success mt-2" type="button" data-bs-toggle="modal" data-bs-target="#fileModal"> <i class="bi bi-file-earmark-spreadsheet"></i> Cargar Archivo</button>
+    <a asp-action="Create" class="btn btn-success mt-2">
+        <i class="bi bi-box-seam"></i> Crear nuevo
+    </a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Nombre)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Precio)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Cantidad)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Marca)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Clasificacion)
+            </th>
+            <th>
+                Imagen
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+           
+            <td>
+                @Html.DisplayFor(modelItem => item.Nombre)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Precio)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Cantidad)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Marca.Nombre)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Clasificacion.Nombre)
+            </td>
+            <td>
+                    @if (!string.IsNullOrEmpty(item.ThumbnailUrl))
+                    {
+                        <img src="@item.ThumbnailUrl" style="max-height:70px; max-width:70px;" />
+                    }else{
+                        <p>No hay imagen disponible</p>
+                    }
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-primary">
+                    <i class="bi bi-pencil-fill"></i>
+                </a> |
+                <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-dark">
+                        <i class="bi bi-eye"></i>
+                    </a> |
+                <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-danger">
+                        <i class="bi bi-trash"></i>
+                </a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
+
+<!-- Modal -->
+<div class="modal fade" id="fileModal" tabindex="-1" aria-labelledby="fileModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="fileModalLabel">Carga de Archivo Masiva</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form method="post" asp-action="CargarArchivo" enctype="multipart/form-data">
+                    <div class="form-group m-3">
+                        <label for="imageFile" class="control-label">Seleccione un archivo de Excel, que desee cargar</label>
+                        <input type="file" name="file" class="form-control" accept=".xlsx" />
+                    </div>
+                    <button type="submit" class="btn btn-primary m-3">Cargar</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

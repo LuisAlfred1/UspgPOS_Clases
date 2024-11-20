@@ -1,0 +1,55 @@
+﻿@model IEnumerable<UspgPOS.Models.Cliente>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1 class="mt-2">Clientes Registrados</h1>
+
+<p>
+    <a asp-action="Create" class="btn btn-success mt-2">
+        <i class="bi bi-person-add"></i> Crear nuevo
+    </a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Nombre)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Nit)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Correo)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Nombre)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Nit)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Correo)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-primary">
+                        <i class="bi bi-pencil-fill"></i>
+                    </a> |
+                <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-dark">
+                        <i class="bi bi-eye"></i>
+                    </a> |
+                <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-danger">
+                        <i class="bi bi-trash"></i>
+                </a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
